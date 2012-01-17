@@ -28,12 +28,12 @@
             // Initializing carousel
             var pos = $initWidth
               , dir = 'left'
-              , speed = 1
+              , speed = 25
               , tmr;
 
             // Defining effect
             function carousel () {
-                if(dir == 'left') pos += speed; else pos -= speed;
+                dir == 'left' ? pos++ : pos--;
                 $('.carousel-wrap').css('margin-left', '-' + pos + 'px');
 
                 // Moving left
@@ -49,7 +49,7 @@
                     pos = parseInt($initWidth);
                 }
 
-                tmr = setTimeout(arguments.callee, 10);
+                tmr = setTimeout(arguments.callee, speed);
             }
 
             // Running effect
@@ -64,11 +64,19 @@
 
             // Change direction on mouse move
             $('body').mousemove(function (e) {
-               if(e.pageX < $('body').width() / 2) dir = 'left';
-               else dir = 'right';
+                if(e.pageX < $('body').width() / 2) {
+                    speed = Math.round(50 / ($('body').width() / e.pageX));
+                    if(speed < 1) speed = 1;
 
-               /*if(e.pageX < 300 || e.pageX > 900) speed = 4;
-               else if(e.pageX >= 300 || e.pageX <= 900) speed = 1;*/
+                    $("#msg").html(speed);
+
+                    dir = 'left';
+                } else {
+                    speed = Math.abs(Math.round((((e.pageX / $('body').width()) * 100) - 100) / 2));
+                    if(speed < 1) speed = 1;
+
+                    dir = 'right';
+                }
             });
 
             $('.box').animateOnHover();
