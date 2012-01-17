@@ -1,0 +1,30 @@
+body {
+    margin: 0; padding: 0; font: 15px/22px arial;
+}
+#container {
+    width: 540px;
+    height: 400px;
+    margin: 0 auto;
+}
+.des {
+    margin: 20px 0 0 20px;
+    color: #888;
+    font-style: italic;
+    font-size: 12px;
+}
+.box {
+    float: left;
+    width: 120px;
+    height: 120px;
+    margin: 15px 30px;
+    background: #F69920;
+    color: white;
+    text-align: center;
+    line-height: 120px;
+    cursor: pointer;
+
+    border-radius: 300px;
+    -moz-border-radius: 300px;
+    -webkit-border-radius: 300px;
+}
+

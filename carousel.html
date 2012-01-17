@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html lang='en-US'>
+<head>
+    <meta charset='UTF-8'>
+    <title>jQuery Carousel</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script src='jquery.js'></script>
+    <script src='jquery.animateOnHover.js'></script>
+
+    <script>
+        $(function () {
+            // Preparing Elements
+            var $initWidth = parseInt( $('#container').width() );
+            $('#container').css('overflow', 'hidden');
+
+            // Cloning children
+            $('#container > *').clone().appendTo('#container')
+                               .clone().appendTo('#container');
+
+            // Carousel wrapper
+            $('#container > *').wrapAll($('<div>', {
+                'class': 'carousel-wrap',
+                'style': 'width: 3000px;'
+            }));
+
+            // Initializing carousel
+            var pos = $initWidth
+              , dir = 'left'
+              , speed = 1
+              , tmr;
+
+            // Defining effect
+            function carousel () {
+                if(dir == 'left') pos += speed; else pos -= speed;
+                $('.carousel-wrap').css('margin-left', '-' + pos + 'px');
+
+                // Moving left
+                curPos = $('.carousel-wrap').css('margin-left');
+                if(dir == 'left' && curPos == '-' + ($initWidth * 2) + 'px') {
+                    $('.carousel-wrap').css('margin-left', '-' + $initWidth + 'px');
+                    pos = parseInt($initWidth);
+                }
+
+                // Moving right
+                if(dir == 'right' && curPos == '0px') {
+                    $('.carousel-wrap').css('margin-left', '-' + $initWidth + 'px');
+                    pos = parseInt($initWidth);
+                }
+
+                tmr = setTimeout(arguments.callee, 10);
+            }
+
+            // Running effect
+            carousel();
+
+            // Pause on mouse over, resume on mouse out
+            $('.carousel-wrap').hover(function() {
+                clearTimeout(tmr);
+            }, function() {
+                carousel();
+            });
+
+            // Change direction on mouse move
+            $('body').mousemove(function (e) {
+               if(e.pageX < $('body').width() / 2) dir = 'left';
+               else dir = 'right';
+
+               /*if(e.pageX < 300 || e.pageX > 900) speed = 4;
+               else if(e.pageX >= 300 || e.pageX <= 900) speed = 1;*/
+            });
+
+            $('.box').animateOnHover();
+        });
+    </script>
+</head>
+<body>
+    <div id='container'>
+        <div class='box'>Cute</div>
+        <div class='box' style='background:#3E9FDD'>Little</div>
+        <div class='box' style='background:#97CE0A'>Circles</div>
+    </div>
+</body>
+</html>
+
